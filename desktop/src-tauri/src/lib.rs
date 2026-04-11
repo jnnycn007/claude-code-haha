@@ -105,11 +105,13 @@ fn start_server_sidecar(app: &AppHandle) -> Result<ServerRuntime, String> {
     let app_root = resolve_app_root(app)?;
     let app_root_arg = app_root.to_string_lossy().to_string();
 
+    // 单一合并 sidecar：第一个参数选 server / cli 模式。
     let sidecar = app
         .shell()
-        .sidecar("claude-server")
-        .map_err(|err| format!("resolve server sidecar: {err}"))?
+        .sidecar("claude-sidecar")
+        .map_err(|err| format!("resolve sidecar: {err}"))?
         .args([
+            "server",
             "--app-root",
             &app_root_arg,
             "--host",

@@ -26,21 +26,17 @@ if (scanExit !== 0) {
 
 await mkdir(binariesDir, { recursive: true })
 
+// 单一合并 sidecar：server / cli 共享一份 bun runtime + 共享依赖代码。
+// 调用方（Tauri lib.rs / conversationService）通过第一个 positional 参数
+// 选择 'server' 或 'cli' 模式，详见 desktop/sidecars/claude-sidecar.ts。
 await compileExecutable({
-  entrypoint: path.join(desktopRoot, 'sidecars/server-launcher.ts'),
-  outfileBase: path.join(binariesDir, `claude-server-${targetTriple}`),
-  productName: 'Claude Code Server',
+  entrypoint: path.join(desktopRoot, 'sidecars/claude-sidecar.ts'),
+  outfileBase: path.join(binariesDir, `claude-sidecar-${targetTriple}`),
+  productName: 'Claude Code Sidecar',
   bunTarget,
 })
 
-await compileExecutable({
-  entrypoint: path.join(desktopRoot, 'sidecars/cli-launcher.ts'),
-  outfileBase: path.join(binariesDir, `claude-cli-${targetTriple}`),
-  productName: 'Claude Code CLI',
-  bunTarget,
-})
-
-console.log(`[build-sidecars] Built desktop sidecars for ${targetTriple} (${bunTarget})`)
+console.log(`[build-sidecars] Built desktop sidecar for ${targetTriple} (${bunTarget})`)
 
 async function detectHostTriple() {
   const proc = Bun.spawn(['rustc', '-vV'], {

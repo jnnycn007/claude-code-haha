@@ -44,8 +44,7 @@
     "targets": "all",
     "createUpdaterArtifacts": true,
     "externalBin": [
-      "binaries/claude-server",
-      "binaries/claude-cli"
+      "binaries/claude-sidecar"
     ],
     "resources": {},
     "icon": [
