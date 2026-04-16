@@ -6,7 +6,7 @@ hero:
   text: 本地可运行的 Claude Code
   tagline: 基于泄露源码修复，支持接入任意 Anthropic 兼容 API（MiniMax、OpenRouter 等）
   image:
-    src: /images/app-icon.jpg
+    src: /images/app-icon.png
     alt: Claude Code Haha
   actions:
     - theme: brand
@@ -44,4 +44,8 @@ features:
     title: Computer Use
     details: 桌面控制功能 — 截屏、鼠标、键盘操作（Python Bridge 实现）
     link: /features/computer-use
+  - icon: "\U0001F5A5"
+    title: 桌面端
+    details: 基于 Tauri 2 + React 的图形化客户端，多标签、多会话、IM 适配器接入，支持 macOS 和 Windows
+    link: /desktop/
 ---
