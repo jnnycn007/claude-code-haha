@@ -91,7 +91,7 @@
     "promoText": "接口AI为 cc-haha 的用户提供官方资源与稳定高性能体验，订阅包价格为官方 8 折；绑定 GitHub 后还可领取 3 美元优惠券。",
     "featured": true,
     "defaultEnv": {
-      "ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES": ""
+      "ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES": "none"
     }
   },
   {
@@ -113,7 +113,7 @@
     "defaultEnv": {
       "API_TIMEOUT_MS": "3000000",
       "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-      "ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES": ""
+      "ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES": "none"
     }
   },
   {

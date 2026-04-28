@@ -41,10 +41,10 @@ describe('provider-aware thinking support', () => {
     expect(modelSupportsAdaptiveThinking('claude-sonnet-4-6')).toBe(false)
   })
 
-  test('honors explicit empty provider capability overrides', () => {
+  test('honors explicit provider capability overrides with no supported capabilities', () => {
     process.env.ANTHROPIC_BASE_URL = 'https://api.jiekou.ai/anthropic'
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'claude-sonnet-4-6'
-    process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES = ''
+    process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES = 'none'
     clearCapabilityCache()
 
     expect(get3PModelCapabilityOverride('claude-sonnet-4-6', 'thinking')).toBe(false)

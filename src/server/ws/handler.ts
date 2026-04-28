@@ -1286,6 +1286,7 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     permissionMode: await settingsService.getPermissionMode().catch(() => undefined),
     model,
     effort,
+    providerId: activeId,
   }
 }
 

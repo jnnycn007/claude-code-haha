@@ -215,7 +215,7 @@ describe('ConversationService', () => {
 
     expect(env.ANTHROPIC_BASE_URL).toBe('https://api.jiekou.ai/anthropic')
     expect(env.ANTHROPIC_MODEL).toBe('claude-sonnet-4-6')
-    expect(env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES).toBe('')
+    expect(env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES).toBe('none')
   })
 
   test('buildChildEnv can force official auth even when a custom default provider exists', async () => {

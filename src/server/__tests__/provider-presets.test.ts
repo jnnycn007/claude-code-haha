@@ -90,7 +90,7 @@ describe('provider presets API', () => {
     expect(jiekouai?.baseUrl).toBe('https://api.jiekou.ai/anthropic')
     expect(jiekouai?.defaultModels.main).toBe('claude-sonnet-4-6')
     expect(jiekouai?.defaultModels.opus).toBe('claude-opus-4-7')
-    expect(jiekouai?.defaultEnv?.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES).toBe('')
+    expect(jiekouai?.defaultEnv?.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES).toBe('none')
     expect(shengsuanyun?.baseUrl).toBe('https://router.shengsuanyun.com/api')
     expect(shengsuanyun?.defaultModels.main).toBe('anthropic/claude-sonnet-4.6')
     expect(shengsuanyun?.defaultModels.haiku).toBe('anthropic/claude-haiku-4.5:thinking')
@@ -129,7 +129,7 @@ describe('provider presets API', () => {
     expect(shengsuanyun?.defaultEnv).toEqual({
       API_TIMEOUT_MS: '3000000',
       CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: '1',
-      ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES: '',
+      ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES: 'none',
     })
     expect(custom?.promoText).toBeUndefined()
   })

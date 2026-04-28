@@ -914,6 +914,64 @@ describe('WebSocket Chat Integration', () => {
     }
   }, 20_000)
 
+  it('should pass the active provider id into default desktop sessions', async () => {
+    const providerService = new ProviderService()
+    const provider = await providerService.addProvider({
+      presetId: 'jiekouai',
+      name: 'Active Default Provider',
+      apiKey: 'key-active-default',
+      baseUrl: 'https://api.jiekou.ai/anthropic',
+      apiFormat: 'anthropic',
+      models: {
+        main: 'active-main',
+        haiku: 'active-haiku',
+        sonnet: 'active-sonnet',
+        opus: 'active-opus',
+      },
+    })
+    await providerService.activateProvider(provider.id)
+
+    const createRes = await fetch(`${baseUrl}/api/sessions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ workDir: process.cwd() }),
+    })
+    expect(createRes.status).toBe(201)
+    const { sessionId } = await createRes.json() as { sessionId: string }
+
+    const originalStartSession = conversationService.startSession.bind(conversationService)
+    const startCalls: Array<{
+      sessionId: string
+      options: { permissionMode?: string; model?: string; effort?: string; providerId?: string | null } | undefined
+    }> = []
+
+    conversationService.startSession = (async function patchedStartSession(
+      sid: string,
+      workDir: string,
+      sdkUrl: string,
+      options?: { permissionMode?: string; model?: string; effort?: string; providerId?: string | null },
+    ) {
+      startCalls.push({ sessionId: sid, options })
+      return originalStartSession(sid, workDir, sdkUrl, options)
+    }) as typeof conversationService.startSession
+
+    try {
+      const messages = await runTurn(sessionId, 'first turn with active provider')
+      expect(messages.some((msg) => msg.type === 'message_complete')).toBe(true)
+      expect(startCalls).toHaveLength(1)
+      expect(startCalls[0]).toMatchObject({
+        sessionId,
+        options: {
+          providerId: provider.id,
+        },
+      })
+    } finally {
+      conversationService.startSession = originalStartSession
+      conversationService.stopSession(sessionId)
+      await providerService.activateOfficial()
+    }
+  }, 20_000)
+
   it('should restart a prewarm that began before runtime config arrived', async () => {
     const providerService = new ProviderService()
     const provider = await providerService.addProvider({
@@ -1008,7 +1066,7 @@ describe('WebSocket Chat Integration', () => {
       )
 
       expect(startCalls[0]).toMatchObject({ sessionId })
-      expect(startCalls[0]?.options?.providerId).toBeUndefined()
+      expect(startCalls[0]?.options?.providerId).toBeNull()
       expect(startCalls[1]).toMatchObject({
         sessionId,
         options: {
